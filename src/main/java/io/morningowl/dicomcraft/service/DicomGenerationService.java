@@ -41,7 +41,7 @@ public class DicomGenerationService {
             byte[] dicomBytes = createDicomFile(attributes);
             
             return DicomGenerationResponse.builder()
-                    .fileName("generated.dcm")
+                    .fileName(generateFileName())
                     .generatedDicomBase64(Base64.getEncoder().encodeToString(dicomBytes))
                     .generationStatus("SUCCESS")
                     .fileSize(dicomBytes.length)
@@ -56,7 +56,11 @@ public class DicomGenerationService {
                     .build();
         }
     }
-    
+
+    private String generateFileName() {
+        return "dicom_" + System.currentTimeMillis() + ".dcm";
+    }
+
     private void setDefaultDicomMetadata(Attributes attributes) {
         // 필수 DICOM 메타데이터 설정
         attributes.setString(Tag.FileMetaInformationGroupLength, VR.UL, "0");
