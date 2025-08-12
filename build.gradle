@@ -21,10 +21,16 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven{
+		url "https://maven.scijava.org/content/repositories/public/"
+	}
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.dcm4che:dcm4che-core:5.31.1'
+	implementation 'org.dcm4che.tool:dcm4che-tool-common:5.30.0'
+	implementation 'org.dcm4che.tool:dcm4che-tool-dcm2json:5.30.0'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
