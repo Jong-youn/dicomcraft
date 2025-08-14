@@ -1,0 +1,28 @@
+{
+  "name": "dicomcraft-monorepo",
+  "version": "1.0.0",
+  "description": "DICOM Craft - Medical Image Editor",
+  "private": true,
+  "workspaces": [
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && ./gradlew bootRun",
+    "dev:frontend": "cd client && npm start",
+    "build": "npm run build:backend && npm run build:frontend",
+    "build:backend": "cd backend && ./gradlew build",
+    "build:frontend": "cd client && npm run build",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd backend && ./gradlew test",
+    "test:frontend": "cd client && npm test",
+    "install:all": "npm install && cd client && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}
