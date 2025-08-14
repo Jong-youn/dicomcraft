@@ -6,16 +6,20 @@ import './Header.css';
 
 interface HeaderProps {
   onAnalysisComplete: (data: DicomAnalysisResponse) => void;
+  onExportDicom: () => Promise<void>;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
+  hasData: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({
   onAnalysisComplete,
+  onExportDicom,
   isLoading,
   setIsLoading,
-  setError
+  setError,
+  hasData
 }) => {
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length === 0) return;
@@ -43,6 +47,14 @@ const Header: React.FC<HeaderProps> = ({
     multiple: false
   });
 
+  const handleExportDicom = async () => {
+    try {
+      await onExportDicom();
+    } catch (error) {
+      console.error('Export DICOM error:', error);
+    }
+  };
+
   return (
     <header className="header">
       <div className="logo">DICOM Craft Editor</div>
@@ -59,17 +71,21 @@ const Header: React.FC<HeaderProps> = ({
           </button>
         </div>
         
-        <button className="btn btn-success" disabled={isLoading}>
+        <button className="btn btn-success" disabled={isLoading || !hasData}>
           <span>💾</span>
           Save Changes
         </button>
         
-        <button className="btn btn-secondary" disabled={isLoading}>
+        <button className="btn btn-secondary" disabled={isLoading || !hasData}>
           <span>🔄</span>
           Reset
         </button>
         
-        <button className="btn btn-primary" disabled={isLoading}>
+        <button 
+          className="btn btn-primary" 
+          disabled={isLoading || !hasData}
+          onClick={handleExportDicom}
+        >
           <span>📤</span>
           Export DICOM
         </button>

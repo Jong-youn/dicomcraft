@@ -34,19 +34,13 @@ const TagEditor: React.FC<TagEditorProps> = ({
   };
 
   const toggleSequence = (tagId: string) => {
-    console.log('Toggle sequence clicked for tag:', tagId);
-    console.log('Current expanded sequences:', Array.from(expandedSequences));
-    
     const newExpanded = new Set(expandedSequences);
     if (newExpanded.has(tagId)) {
       newExpanded.delete(tagId);
-      console.log('Removing from expanded sequences');
     } else {
       newExpanded.add(tagId);
-      console.log('Adding to expanded sequences');
     }
     setExpandedSequences(newExpanded);
-    console.log('Updated expanded sequences:', Array.from(newExpanded));
   };
 
   const renderTagValue = (tag: DicomTag) => {
@@ -76,13 +70,6 @@ const TagEditor: React.FC<TagEditorProps> = ({
     const isExpanded = expandedSequences.has(tag.id);
     const isSequence = tag.vr === 'SQ';
     
-    console.log(`Rendering tag ${tag.id}:`, {
-      isSequence,
-      isExpanded,
-      hasChildren: tag.children && tag.children.length > 0,
-      childrenCount: tag.children?.length || 0
-    });
-    
     return (
       <div key={tag.id} className="tag-wrapper" style={{ marginLeft: `${depth * 20}px` }}>
         <div 
@@ -90,7 +77,6 @@ const TagEditor: React.FC<TagEditorProps> = ({
           onClick={isSequence ? (e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Sequence tag clicked:', tag.id);
             toggleSequence(tag.id);
           } : undefined}
         >
@@ -107,22 +93,18 @@ const TagEditor: React.FC<TagEditorProps> = ({
         {/* Sequence 하위 태그들 */}
         {isSequence && isExpanded && tag.children && tag.children.length > 0 && (
           <div className="sequence-children">
-            {tag.children.map((sequenceItem, itemIndex) => {
-              console.log(`Rendering sequence item ${itemIndex}:`, sequenceItem);
-              return (
-                <div key={`${tag.id}-item-${itemIndex}`} className="sequence-item">
-                  <div className="sequence-item-header">
-                    Item {sequenceItem.itemNumber}
-                  </div>
-                  <div className="sequence-item-tags">
-                    {sequenceItem.tags && sequenceItem.tags.map((childTag) => {
-                      console.log(`Rendering child tag:`, childTag);
-                      return renderTagWithChildren(childTag, depth + 1);
-                    })}
-                  </div>
+            {tag.children.map((sequenceItem, itemIndex) => (
+              <div key={`${tag.id}-item-${itemIndex}`} className="sequence-item">
+                <div className="sequence-item-header">
+                  Item {sequenceItem.itemNumber}
                 </div>
-              );
-            })}
+                <div className="sequence-item-tags">
+                  {sequenceItem.tags && sequenceItem.tags.map((childTag) => 
+                    renderTagWithChildren(childTag, depth + 1)
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
