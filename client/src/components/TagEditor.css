@@ -9,6 +9,7 @@
 .editor-header {
   padding: 1rem;
   border-bottom: 1px solid #e2e8f0;
+  background: #f9fafb;
 }
 
 .editor-title {
@@ -31,6 +32,8 @@
   border-radius: 0.5rem;
   font-size: 0.875rem;
   box-sizing: border-box;
+  background: white;
+  color: #374151;
 }
 
 .search-box:focus {
@@ -142,6 +145,8 @@
   border-radius: 0.375rem;
   font-size: 0.875rem;
   min-width: 150px;
+  background: white;
+  color: #374151;
 }
 
 .tag-input:focus {
@@ -157,36 +162,6 @@
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
   font-style: italic;
-}
-
-.sequence-indicator.clickable {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: background-color 0.2s;
-  user-select: none;
-  pointer-events: auto;
-  position: relative;
-  z-index: 1;
-}
-
-.sequence-indicator.clickable:hover {
-  background: #e5e7eb;
-}
-
-.sequence-indicator.clickable:active {
-  background: #d1d5db;
-}
-
-.expand-icon {
-  transition: transform 0.2s;
-  font-size: 0.75rem;
-  pointer-events: none;
-}
-
-.expand-icon.expanded {
-  transform: rotate(90deg);
 }
 
 .sequence-children {
